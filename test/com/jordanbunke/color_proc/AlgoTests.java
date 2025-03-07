@@ -38,4 +38,12 @@ public class AlgoTests {
 
         return img.submit();
     }
+
+    @Test
+    public void diffAndDiffRGBAreDistinct() {
+        final Color a = new Color(0x000000),
+                b = new Color(0xffffff);
+        Assert.assertNotEquals(
+                ColorAlgo.diffRGBA(a, b), ColorAlgo.diffRGB(a, b));
+    }
 }

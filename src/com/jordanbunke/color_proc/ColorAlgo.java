@@ -50,28 +50,31 @@ public final class ColorAlgo {
                     (c.getAlpha() + (RGB_SCALE / 2)) % RGB_SCALE);
 
             return MathPlus.findBest(c, worst, cl -> cl,
-                    (c1, c2) -> diff(c1, c) < diff(c2, c), palette);
+                    (c1, c2) -> diffRGBA(c1, c) < diffRGBA(c2, c), palette);
         };
     }
 
-    public static double diff(final Color a, final Color b) {
-        final int MAX_DIFF = RGB_SCALE * 4;
-
-        final int rDiff = Math.abs(a.getRed() - b.getRed()),
-                gDiff = Math.abs(a.getGreen() - b.getGreen()),
-                bDiff = Math.abs(a.getBlue() - b.getBlue()),
-                alphaDiff = Math.abs(a.getAlpha() - b.getAlpha());
-
-        return (rDiff + gDiff + bDiff + alphaDiff) / (double) MAX_DIFF;
+    public static double diffRGBA(final Color a, final Color b) {
+        return diff(a, b, Color::getRed, Color::getGreen,
+                Color::getBlue, Color::getAlpha);
     }
 
     public static double diffRGB(final Color a, final Color b) {
-        final int MAX_DIFF = RGB_SCALE * 3;
+        return diff(a, b, Color::getRed, Color::getGreen, Color::getBlue);
+    }
 
-        final int rDiff = Math.abs(a.getRed() - b.getRed()),
-                gDiff = Math.abs(a.getGreen() - b.getGreen()),
-                bDiff = Math.abs(a.getBlue() - b.getBlue());
+    @SafeVarargs
+    private static double diff(
+            final Color a, final Color b,
+            final Function<Color, Integer>... channels
+    ) {
+        final int MAX_DIFF = RGB_SCALE * channels.length;
 
-        return (rDiff + gDiff + bDiff) / (double) MAX_DIFF;
+        int cumulativeDiff = 0;
+
+        for (Function<Color, Integer> channel : channels)
+            cumulativeDiff += Math.abs(channel.apply(a) - channel.apply(b));
+
+        return cumulativeDiff / (double) MAX_DIFF;
     }
 }

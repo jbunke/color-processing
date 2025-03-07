@@ -64,4 +64,14 @@ public final class ColorAlgo {
 
         return (rDiff + gDiff + bDiff + alphaDiff) / (double) MAX_DIFF;
     }
+
+    public static double diffRGB(final Color a, final Color b) {
+        final int MAX_DIFF = RGB_SCALE * 3;
+
+        final int rDiff = Math.abs(a.getRed() - b.getRed()),
+                gDiff = Math.abs(a.getGreen() - b.getGreen()),
+                bDiff = Math.abs(a.getBlue() - b.getBlue());
+
+        return (rDiff + gDiff + bDiff) / (double) MAX_DIFF;
+    }
 }

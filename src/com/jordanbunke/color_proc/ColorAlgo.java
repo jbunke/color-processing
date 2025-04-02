@@ -12,6 +12,10 @@ import static com.jordanbunke.color_proc.ColorProc.RGB_SCALE;
 
 public final class ColorAlgo {
     public static Color[] colors(final GameImage source) {
+        return colors(source, false);
+    }
+
+    public static Color[] colors(final GameImage source, final boolean ignoreTP) {
         final int w = source.getWidth(), h = source.getHeight();
         final Set<Color> cSet = new HashSet<>();
         final List<Color> cs = new LinkedList<>();
@@ -19,6 +23,8 @@ public final class ColorAlgo {
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
                 final Color c = source.getColorAt(x, y);
+
+                if (ignoreTP && c.getAlpha() == 0) continue;
 
                 if (!cSet.contains(c)) {
                     cSet.add(c);

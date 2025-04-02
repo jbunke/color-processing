@@ -4,13 +4,32 @@ import com.jordanbunke.delta_time.image.GameImage;
 import com.jordanbunke.delta_time.utility.math.MathPlus;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.List;
 import java.util.function.Function;
 
 import static com.jordanbunke.color_proc.ColorProc.RGB_SCALE;
 
 public final class ColorAlgo {
+    public static Color[] colors(final GameImage source) {
+        final int w = source.getWidth(), h = source.getHeight();
+        final Set<Color> cSet = new HashSet<>();
+        final List<Color> cs = new LinkedList<>();
+
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                final Color c = source.getColorAt(x, y);
+
+                if (!cSet.contains(c)) {
+                    cSet.add(c);
+                    cs.add(c);
+                }
+            }
+        }
+
+        return cs.toArray(Color[]::new);
+    }
+
     public static GameImage run(
             final Function<Color, Color> algo,
             final GameImage source

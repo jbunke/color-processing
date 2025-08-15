@@ -79,6 +79,29 @@ public final class ColorAlgo {
         };
     }
 
+    public static Color lerp(
+            final Color a, final Color b, final double t
+    ) {
+        if (t <= 0d)
+            return a;
+        else if (t >= 1d)
+            return b;
+
+        final int baseR = a.getRed(), baseG = a.getGreen(),
+                baseB = a.getBlue(), baseA = a.getAlpha(),
+                deltaR = b.getRed() - a.getRed(),
+                deltaG = b.getGreen() - a.getGreen(),
+                deltaB = b.getBlue() - a.getBlue(),
+                deltaA = b.getAlpha() - a.getAlpha();
+
+        return new Color(
+                baseR + (int)Math.round(deltaR * t),
+                baseG + (int)Math.round(deltaG * t),
+                baseB + (int)Math.round(deltaB * t),
+                baseA + (int)Math.round(deltaA * t)
+        );
+    }
+
     public static double diffRGBA(final Color a, final Color b) {
         return diff(a, b, Color::getRed, Color::getGreen,
                 Color::getBlue, Color::getAlpha);

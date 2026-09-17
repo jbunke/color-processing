@@ -1,7 +1,7 @@
 package com.jordanbunke.color_proc;
 
-import com.jordanbunke.delta_time.image.GameImage;
-import com.jordanbunke.delta_time.utility.math.RNG;
+import com.jordanbunke.grundstein.util.GraphicsImage;
+import com.jordanbunke.grundstein.util.RNG;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ import static com.jordanbunke.color_proc.ColorProc.RGB_SCALE;
 public class AlgoTests {
     @Test
     public void reverseOfAReversedImageIsTheOriginalImage() {
-        final GameImage img = drawRandomImage();
+        final GraphicsImage img = drawRandomImage();
         final Function<Color, Color> reverse = c -> new Color(
                 RGB_SCALE - c.getRed(), RGB_SCALE - c.getGreen(),
                 RGB_SCALE - c.getBlue(), c.getAlpha());
@@ -23,9 +23,9 @@ public class AlgoTests {
                 ColorAlgo.run(c -> reverse.apply(reverse.apply(c)), img));
     }
 
-    private GameImage drawRandomImage() {
+    private GraphicsImage drawRandomImage() {
         final int DIM = 20;
-        final GameImage img = new GameImage(DIM, DIM);
+        final GraphicsImage img = new GraphicsImage(DIM, DIM);
 
         for (int x = 0; x < DIM; x++)
             for (int y = 0; y < DIM; y++) {
@@ -33,7 +33,7 @@ public class AlgoTests {
                         RNG.randomInRange(0, RGB_SCALE + 1),
                         RNG.randomInRange(0, RGB_SCALE + 1),
                         RNG.randomInRange(0, RGB_SCALE + 1));
-                img.dot(c, x, y);
+                img.setRGB(x, y, c.getRGB());
             }
 
         return img.submit();

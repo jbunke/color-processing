@@ -1,6 +1,6 @@
 package com.jordanbunke.color_proc;
 
-import com.jordanbunke.delta_time.utility.math.MathPlus;
+import com.jordanbunke.grundstein.util.MathUtils;
 
 import java.awt.*;
 
@@ -112,7 +112,7 @@ public final class ColorProc {
     }
 
     private static int scaleUpRGBAHSV(final double n, final int scale) {
-        return MathPlus.bounded(0, (int) Math.round(n * scale), scale);
+        return MathUtils.clamp((int) Math.round(n * scale), 0, scale);
     }
 
     public static int hue(final Color c) {
@@ -143,11 +143,11 @@ public final class ColorProc {
     }
 
     private static double getMaxOfRGB(final double[] rgb) {
-        return MathPlus.max(rgb);
+        return MathUtils.max(rgb);
     }
 
     private static double getMinOfRGB(final double[] rgb) {
-        return MathPlus.min(rgb);
+        return MathUtils.min(rgb);
     }
 
     private static double[] rgbAsArray(final Color c) {
